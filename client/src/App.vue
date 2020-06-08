@@ -1,32 +1,37 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+    <div class="scrollToTop" v-if="!hide" @click="scrollToTop">Go back to top!</div>
+    <div class="Header"></div>
+    <div class="Content" @scroll="checkScroll()">
+      <transition name="fade">
+      <router-view />
+      </transition>
     </div>
-    <router-view />
+    <div class="Footer"></div>
   </div>
 </template>
 
+<script>
+export default {
+  data () {
+    return {
+      hide: true
+    }
+  },
+  methods: {
+    checkScroll() {
+      let element = document.querySelector('.Content')
+      if (element.scrollTop === 0) this.hide = true
+      else this.hide = false
+    },
+    scrollToTop () {
+      let element = document.querySelector('.Content')
+      element.scrollTop = 0;
+    }
+  }
+}
+</script>
+
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
 
-#nav {
-  padding: 30px;
-}
-
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
-}
 </style>
